@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2023 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openrewrite;
+package org.openrewrite.java.trait.variable;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
+import org.openrewrite.java.trait.member.FieldDeclaration;
+import org.openrewrite.java.trait.member.Member;
 
-/**
- * This is a feature that is experimental and may yield a breaking change in a minor release.
- */
-@Documented
-@Target({ElementType.METHOD, ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.PACKAGE})
-public @interface Incubating {
-    String since();
+import java.util.Optional;
+
+/** A class or instance field. */
+public interface Field extends Member, Variable {
+    /**
+     * Gets the field declaration in which this field is declared.
+     * <p/>
+     * Note that this declaration is only available if the field occurs in source code.
+     */
+    Optional<FieldDeclaration> getDeclaration();
+
+
 }

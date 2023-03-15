@@ -21,6 +21,7 @@ import org.openrewrite.Cursor;
 import org.openrewrite.Tree;
 import org.openrewrite.internal.lang.Nullable;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 
@@ -49,6 +50,41 @@ public class SearchResult implements Marker {
         }
         return t.withMarkers(t.getMarkers().computeByType(new SearchResult(randomId(), description),
                 (s1, s2) -> s1 == null ? s2 : s1));
+    }
+
+    /**
+     * Merge the description of two search results into a single search result with a unified description.
+     */
+    public static <T extends Tree> T foundMerging(@Nullable T t,String description) {
+        return foundMerging(t, description, ", ");
+    }
+
+    /**
+     * Merge the description of two search results into a single search result with a unified description.
+     * @param delimiter The delimiter to use when merging descriptions.
+     */
+    public static <T extends Tree> T foundMerging(@Nullable T t, String description, String delimiter) {
+        Objects.requireNonNull(delimiter, "delimiter must not be null");
+        if (t == null) {
+            //noinspection ConstantConditions
+            return null;
+        }
+        return t.withMarkers(t.getMarkers().computeByType(new SearchResult(randomId(), description),
+                (s1, s2) -> {
+                    if (s1 == null) {
+                        return s2;
+                    }
+                    if (s2 == null) {
+                        return s1;
+                    }
+                    if (s1.getDescription() == null) {
+                        return s2;
+                    }
+                    if (s2.getDescription() == null) {
+                        return s1;
+                    }
+                    return s1.withDescription(s1.getDescription() + delimiter + s2.getDescription());
+                }));
     }
 
     /**
