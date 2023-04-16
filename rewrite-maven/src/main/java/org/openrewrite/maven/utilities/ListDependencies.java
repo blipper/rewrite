@@ -76,7 +76,9 @@ public class ListDependencies extends Recipe {
             }.visit(sourceFile, ctx);
         }
 
-        return ListUtils.concat(before, new PlainTextParser().parse(dependencies.stream().sorted().collect(Collectors.joining("\n"))).get(0)
+        return ListUtils.concat(before, new PlainTextParser().parse(dependencies.stream().sorted().collect(Collectors.joining("\n")))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Could not parse as plain text"))
                 .withSourcePath(Paths.get("dependencies.txt")));
     }
 }

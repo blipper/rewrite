@@ -131,7 +131,10 @@ public class AppendToTextFile extends Recipe {
     }
 
     private PlainText createFile(String path, String content, ExecutionContext ctx, @Nullable UUID id) {
-        PlainText plainText = new PlainTextParser().parse(content).get(0).withSourcePath(Paths.get(path));
+        PlainText plainText = new PlainTextParser().parse(content)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Could not parse as plain text"))
+                .withSourcePath(Paths.get(path));
         if (id != null) {
             plainText = plainText.withId(id);
         }

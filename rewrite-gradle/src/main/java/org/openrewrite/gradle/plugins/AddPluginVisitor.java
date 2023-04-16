@@ -108,7 +108,8 @@ public class AddPluginVisitor extends GroovyIsoVisitor<ExecutionContext> {
                             null,
                             ctx
                     )
-                    .get(0)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Could not parse as Java"))
                     .getStatements();
 
             if (FindMethods.find(cu, "RewriteGradleProject plugins(..)").isEmpty() && FindMethods.find(cu, "RewriteSettings plugins(..)").isEmpty()) {

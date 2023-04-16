@@ -27,6 +27,7 @@ import org.openrewrite.properties.PropertiesParser;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 
@@ -84,7 +85,8 @@ public class AddProperty extends Recipe {
         if (!exists.get()) {
             after = ListUtils.concatAll(before, PropertiesParser.builder().build()
                     .parseInputs(singletonList(Parser.Input.fromString(Paths.get("gradle.properties"),
-                            key + "=" + value)), null, ctx));
+                            key + "=" + value)), null, ctx)
+                    .collect(Collectors.toList()));
         }
 
         return after;

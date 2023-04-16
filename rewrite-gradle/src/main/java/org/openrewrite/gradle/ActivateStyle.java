@@ -100,7 +100,9 @@ public class ActivateStyle extends Recipe {
                 });
             } else {
                 after = ListUtils.concat(after, new PropertiesParser()
-                        .parse(STYLE_KEY + "=" + fullyQualifiedStyleName).get(0)
+                        .parse(STYLE_KEY + "=" + fullyQualifiedStyleName)
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Could not parse as properties"))
                         .withSourcePath(Paths.get("gradle.properties")));
             }
         }

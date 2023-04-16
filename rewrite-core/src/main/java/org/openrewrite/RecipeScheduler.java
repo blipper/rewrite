@@ -213,7 +213,7 @@ public interface RecipeScheduler {
         final Map<UUID, Boolean> singleSourceApplicableTestResultRef = singleSourceApplicableTestResult;
         boolean hasSingleSourceApplicableTest =
                 singleSourceApplicableTestResult != null &&
-                        !singleSourceApplicableTestResult.isEmpty();
+                !singleSourceApplicableTestResult.isEmpty();
 
         if (!recipe.validate(ctx).isValid()) {
             after = before;
@@ -226,8 +226,8 @@ public interface RecipeScheduler {
                 S afterFile = s;
                 try {
                     if (hasSingleSourceApplicableTest &&
-                            singleSourceApplicableTestResultRef.containsKey(s.getId()) &&
-                            !singleSourceApplicableTestResultRef.get(s.getId())) {
+                        singleSourceApplicableTestResultRef.containsKey(s.getId()) &&
+                        !singleSourceApplicableTestResultRef.get(s.getId())) {
                         return s;
                     }
 
@@ -448,7 +448,7 @@ class RecipeSchedulerUtils {
                             s.getMarkers()
                                     .findFirst(RecipesThatMadeChanges.class)
                                     .orElseThrow(() -> new IllegalStateException("SourceFile changed but no recipe " +
-                                            "reported making a change"))
+                                                                                 "reported making a change"))
                                     .getRecipes()
                     ));
                 }
@@ -481,9 +481,9 @@ class RecipeSchedulerUtils {
                         result.getAfter() == null ? "" : result.getAfter().getSourcePath().toString(),
                         recipeThatMadeChange[0] == null ? "" : recipeThatMadeChange[0].getName(),
                         recipeThatMadeChange[1].getName(),
-                        result.getTimeSavings().getSeconds()
+                        result.getTimeSavings() == null ? 0 : result.getTimeSavings().getSeconds()
                 ));
-                for (int i = recipeThatMadeChange[1].getRecipeList().size() - 1; i >=0 ; i--) {
+                for (int i = recipeThatMadeChange[1].getRecipeList().size() - 1; i >= 0; i--) {
                     RecipeDescriptor rd = recipeThatMadeChange[1].getRecipeList().get(i);
                     recipeStack.push(new RecipeDescriptor[]{recipeThatMadeChange[1], rd});
                 }
@@ -535,7 +535,8 @@ class RecipeSchedulerUtils {
         // and instead we add a new file to record the exception message.
         S exception = PlainTextParser.builder().build()
                 .parse("Rewrite encountered an uncaught recipe error in " + recipe.getName() + ".")
-                .get(0)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Unable to parse as plain text"))
                 .withSourcePath(Paths.get("recipe-exception-" + ctx.incrementAndGetUncaughtExceptionCount() + ".txt"));
         exception = Markup.error(exception, t);
         recipeThatAddedOrDeletedSourceFile.put(exception.getId(), recipeStack);

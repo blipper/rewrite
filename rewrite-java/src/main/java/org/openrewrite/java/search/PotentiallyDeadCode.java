@@ -109,7 +109,6 @@ public class PotentiallyDeadCode extends Recipe {
                                         .collect(joining(",")) +
                                 ")")
                         .collect(joining("\n", "declaring type,method\n", "\n")))
-                .stream()
                 .map(pt -> pt.withSourcePath(Paths.get(sourcePath)))
                 .collect(Collectors.toList());
     }

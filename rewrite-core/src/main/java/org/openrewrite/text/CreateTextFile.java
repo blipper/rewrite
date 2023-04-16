@@ -90,7 +90,8 @@ public class CreateTextFile extends Recipe {
 
     public static PlainText createNewFile(String relativeFilePath, String fileContents) {
         PlainTextParser parser = new PlainTextParser();
-        PlainText brandNewFile = parser.parse(fileContents).get(0);
+        PlainText brandNewFile = parser.parse(fileContents).findFirst()
+                .orElseThrow(() -> new IllegalStateException("Could not parse as plain text"));
         return brandNewFile.withSourcePath(Paths.get(relativeFilePath));
     }
 }

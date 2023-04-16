@@ -150,7 +150,9 @@ public class AddGradleWrapper extends Recipe {
                                     "distributionUrl=" + gradleWrapper.getPropertiesFormattedUrl() + "\n" +
                                     "distributionSha256Sum=" + gradleWrapper.getDistributionChecksum().getHexValue() + "\n" +
                                     "zipStoreBase=GRADLE_USER_HOME\n" +
-                                    "zipStorePath=wrapper/dists").get(0)
+                                    "zipStorePath=wrapper/dists")
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Could not parse as properties"))
                     .withSourcePath(WRAPPER_PROPERTIES_LOCATION);
             gradleWrapperFiles.add(gradleWrapperProperties);
         }

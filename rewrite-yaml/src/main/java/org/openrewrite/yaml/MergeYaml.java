@@ -23,8 +23,6 @@ import org.openrewrite.internal.ListUtils;
 import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.yaml.tree.Yaml;
 
-import java.util.List;
-
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class MergeYaml extends Recipe {
@@ -65,13 +63,10 @@ public class MergeYaml extends Recipe {
     public Validated validate() {
         return super.validate()
                 .and(Validated.test("yaml", "Must be valid YAML",
-                        yaml, y -> {
-                            List<Yaml.Documents> parsed = new YamlParser().parse(yaml);
-                            if (parsed.isEmpty()) {
-                                return false;
-                            }
-                            return !parsed.get(0).getDocuments().isEmpty();
-                        }));
+                        yaml, y -> new YamlParser().parse(yaml)
+                                .findFirst()
+                                .map(doc -> !doc.getDocuments().isEmpty())
+                                .orElse(false)));
     }
 
     @Override
@@ -92,7 +87,10 @@ public class MergeYaml extends Recipe {
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         JsonPathMatcher matcher = new JsonPathMatcher(key);
-        Yaml incoming = new YamlParser().parse(yaml).get(0).getDocuments().get(0).getBlock();
+        Yaml incoming = new YamlParser().parse(yaml)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Could not parse as YAML"))
+                .getDocuments().get(0).getBlock();
 
         return new YamlIsoVisitor<ExecutionContext>() {
             @Override

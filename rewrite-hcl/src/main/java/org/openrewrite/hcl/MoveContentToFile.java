@@ -111,7 +111,9 @@ public class MoveContentToFile extends Recipe {
             });
         }
 
-        Hcl.ConfigFile configFile = HclParser.builder().build().parse("").get(0);
+        Hcl.ConfigFile configFile = HclParser.builder().build().parse("")
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Could not parse as HCL"));
         configFile = configFile.withBody(Collections.singletonList(toMove.get().withPrefix(Space.EMPTY)))
                 .withSourcePath(dest);
         return ListUtils.concat(after, configFile);

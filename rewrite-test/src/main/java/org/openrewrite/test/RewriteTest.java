@@ -254,8 +254,8 @@ public interface RewriteTest extends SourceSpecs {
 
             Iterator<SourceSpec<?>> sourceSpecIter = inputs.keySet().iterator();
 
-            //noinspection unchecked
-            List<SourceFile> sourceFiles = (List<SourceFile>) parser.parseInputs(inputs.values(), relativeTo, executionContext);
+            List<SourceFile> sourceFiles = parser.parseInputs(inputs.values(), relativeTo, executionContext)
+                    .collect(Collectors.toList());
             assertThat(sourceFiles.size())
                     .as("Every input should be parsed into a SourceFile.")
                     .isEqualTo(inputs.size());
@@ -435,7 +435,7 @@ public interface RewriteTest extends SourceSpecs {
                                     .as("The recipe must not make changes to \"" + result.getBefore().getSourcePath() + "\"")
                                     .isEqualTo(result.getBefore().printAll(out.clone()));
                         }
-                    } else if (result.getAfter() == null) {
+                    } else {
                         if (sourceSpec.after == null) {
                             // If the source spec was not expecting a change (spec.after == null) but the file has been
                             // deleted, assert failure.
@@ -466,6 +466,7 @@ public interface RewriteTest extends SourceSpecs {
                            && !expectedNewResults.contains(result)
                            && testMethodSpec.afterRecipes.isEmpty()
                 ) {
+                    assertThat(result.getAfter()).isNotNull();
                     // falsely added files detected.
                     fail("The recipe added a source file \"" + result.getAfter().getSourcePath()
                          + "\" that was not expected.");

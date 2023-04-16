@@ -22,6 +22,8 @@ import org.openrewrite.style.GeneralFormatStyle;
 import org.openrewrite.style.NamedStyles;
 import org.openrewrite.test.RewriteTest;
 
+import java.util.stream.Collectors;
+
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +52,7 @@ class AutodetectTest implements RewriteTest {
 
             }
             """
-        );
+        ).collect(Collectors.toList());
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
         assertThat(tabsAndIndents.getUseTabCharacter()).isTrue();
@@ -84,7 +86,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -125,7 +127,7 @@ class AutodetectTest implements RewriteTest {
               }
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -156,7 +158,7 @@ class AutodetectTest implements RewriteTest {
             
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -181,7 +183,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -210,7 +212,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -240,7 +242,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -269,7 +271,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -294,7 +296,7 @@ class AutodetectTest implements RewriteTest {
                 }
             }
             """
-        );
+        ).collect(Collectors.toList());
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
         assertThat(tabsAndIndents.getUseTabCharacter()).isFalse();
@@ -322,7 +324,7 @@ class AutodetectTest implements RewriteTest {
             	}
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -350,7 +352,7 @@ class AutodetectTest implements RewriteTest {
                 public class Test {
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var importLayout = NamedStyles.merge(ImportLayoutStyle.class, singletonList(styles));
@@ -407,7 +409,7 @@ class AutodetectTest implements RewriteTest {
             
             import java.util.List;
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var importLayout = NamedStyles.merge(ImportLayoutStyle.class, singletonList(styles));
@@ -445,7 +447,7 @@ class AutodetectTest implements RewriteTest {
                     HashSet<Integer> integer;
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var importLayout = NamedStyles.merge(ImportLayoutStyle.class, singletonList(styles));
@@ -480,7 +482,7 @@ class AutodetectTest implements RewriteTest {
                     HashSet<Integer> integer;
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var importLayout = NamedStyles.merge(ImportLayoutStyle.class, singletonList(styles));
@@ -499,7 +501,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
         
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -518,7 +520,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -538,7 +540,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -556,7 +558,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cu);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -575,7 +577,7 @@ class AutodetectTest implements RewriteTest {
                 }
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cu);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -594,7 +596,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -613,7 +615,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -632,7 +634,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -651,7 +653,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
         
         var styles = Autodetect.detect(cu);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -673,7 +675,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
         
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -692,7 +694,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var spacesStyle = NamedStyles.merge(SpacesStyle.class, singletonList(styles));
@@ -714,7 +716,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var wrappingAndBracesStyle = NamedStyles.merge(WrappingAndBracesStyle.class, singletonList(styles));
@@ -738,7 +740,7 @@ class AutodetectTest implements RewriteTest {
                     }
                 }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var wrappingAndBracesStyle = NamedStyles.merge(WrappingAndBracesStyle.class, singletonList(styles));
@@ -755,7 +757,7 @@ class AutodetectTest implements RewriteTest {
           "        System.out.println();\n" +
           "    }\r\n" +
           "}\r\n"
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var lineFormatStyle = NamedStyles.merge(GeneralFormatStyle.class, singletonList(styles));
@@ -772,7 +774,7 @@ class AutodetectTest implements RewriteTest {
           "        System.out.println();\n" +
           "    }\n" +
           "}\r\n"
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var lineFormatStyle = NamedStyles.merge(GeneralFormatStyle.class, singletonList(styles));
@@ -800,7 +802,7 @@ class AutodetectTest implements RewriteTest {
                   }
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
@@ -849,7 +851,7 @@ class AutodetectTest implements RewriteTest {
                 }
             }
             """
-        );
+        ).collect(Collectors.toList());
 
         var styles = Autodetect.detect(cus);
         var tabsAndIndents = NamedStyles.merge(TabsAndIndentsStyle.class, singletonList(styles));
